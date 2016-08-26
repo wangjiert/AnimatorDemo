@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">AnimationDemo</string>
+    <integer name="animationX">610</integer>
+    <integer name="animationY">315</integer>
+    <integer name="radius">518</integer>
+    <integer name="timeInterval">10</integer>
+
+</resources>
