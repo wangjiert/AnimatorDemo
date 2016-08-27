@@ -31,7 +31,10 @@ public class CircleView extends View {
     private double bounceAcceleratedRatio = 0.002;      //圆球反弹时旋转加速度
     private double backwardAcceleratedRatio = 0.002;    //圆球向下时旋转加速度
     private double startSpeed = 0.015;                  //圆球开始旋转的速度
+    private double bounceSpeed = 0.04;                  //圆球碰撞之后的起始速度
+    private double returnSpeed = 0.0225;                //圆球反向旋转的起始速度
     private double startRadian = 0.0;                   //圆球开始旋转的夹角
+    private double acceleratedValue = 0;
     private double currentRadian = startRadian;
     private double endRadian;
 
@@ -83,17 +86,17 @@ public class CircleView extends View {
 
     }
 
+    public void initAcceleratedValue() {
+
+        this.acceleratedValue = 0;
+
+    }
+
     public void setDegree(int degree){
 
         this.degree = degree;
 
         invalidate();
-
-    }
-
-    public void setStartSpeed(double startSpeed) {
-
-        this.startSpeed = startSpeed;
 
     }
 
@@ -196,9 +199,9 @@ public class CircleView extends View {
 
                 if(state.equals("normal")){
 
-                    currentRadian += startSpeed;
+                    currentRadian += startSpeed + acceleratedValue;
 
-                    startSpeed += forwardAcceleratedRatio;
+                    acceleratedValue += forwardAcceleratedRatio;
 
                     if(index == 0 && currentRadian > endRadian){
 
@@ -209,11 +212,11 @@ public class CircleView extends View {
 
                 else{
 
-                    currentRadian -= startSpeed;
+                    currentRadian -= bounceSpeed - acceleratedValue;
 
-                    if(startSpeed > 0.008){
+                    if(bounceSpeed - acceleratedValue > 0.008){
 
-                        startSpeed -= bounceAcceleratedRatio;
+                        acceleratedValue += bounceAcceleratedRatio;
 
                     }
 
@@ -229,9 +232,9 @@ public class CircleView extends View {
 
             case "backward":
 
-                currentRadian -= startSpeed;
+                currentRadian -= returnSpeed + acceleratedValue;
 
-                startSpeed += backwardAcceleratedRatio;
+                acceleratedValue += backwardAcceleratedRatio;
 
                 if(currentRadian < startRadian){
 
