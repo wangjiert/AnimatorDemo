@@ -2,6 +2,7 @@ package com.konka.animationdemo;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.app.Activity;
@@ -27,6 +28,7 @@ public class AnimationManager{
     private int radius = 518;                               //动画半径
     private int imageWidth = 180;                           //圆环图片的宽度
     private int leftBgDuration = 1000;                      //左边图片显示的动画时间
+    private int circleAlphaDuration = 100;                   //圆环透明动画持续时间
     private int circleScaleDuration = 200;                  //圆环放大持续时间
     private int highLightStartInterval = 300;               //高亮动画开始的延迟时间
     private int ballHighLightDuration = 200;                //圆球高亮动画持续时间
@@ -64,9 +66,15 @@ public class AnimationManager{
 
     private ObjectAnimator leftAnimIn;
 
+    private ObjectAnimator alphaInAnimator;
+
+    private ObjectAnimator alphaOutAnimator;
+
     private ValueAnimator scaleAnim;
 
     private ValueAnimator valueAnimator;
+
+    private AnimatorSet alphaScaleSet = new AnimatorSet();
 
     public AnimationManager(Activity context) {
 
@@ -123,6 +131,14 @@ public class AnimationManager{
 
         leftAnimIn.start();
 
+        alphaInAnimator = ObjectAnimator.ofFloat( imageView, "alpha", 0f, 1f);
+
+        alphaInAnimator.setDuration(circleAlphaDuration);
+
+        alphaOutAnimator = ObjectAnimator.ofFloat( imageView, "alpha", 1f, 0f);
+
+        alphaOutAnimator.setDuration(circleAlphaDuration);
+
         scaleAnim = ValueAnimator.ofFloat( 1.0f, circleScale);
 
         scaleAnim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
@@ -147,6 +163,8 @@ public class AnimationManager{
         scaleAnim.setRepeatCount(1);
 
         scaleAnim.setRepeatMode(ValueAnimator.REVERSE);
+
+        alphaScaleSet.play(alphaInAnimator).before(scaleAnim);
 
         valueAnimator = ValueAnimator.ofInt(0,359);
 
@@ -235,9 +253,11 @@ public class AnimationManager{
 
                             if(index == 1) {
 
-                                imageView.setVisibility(View.VISIBLE);
+                                //imageView.setVisibility(View.VISIBLE);
 
-                                scaleAnim.start();
+                                //scaleAnim.start();
+
+                                alphaScaleSet.start();
 
                             }
 
@@ -289,7 +309,7 @@ public class AnimationManager{
 
                 state = "backward";
 
-                imageView.setVisibility(View.INVISIBLE);
+                alphaOutAnimator.start();
 
                 break;
 
@@ -397,7 +417,7 @@ public class AnimationManager{
 
         matrix = imageView.getImageMatrix();
 
-        imageView.setVisibility(View.INVISIBLE);
+        imageView.setAlpha(0f);
 
         mainLayout.addView(imageView);
 
