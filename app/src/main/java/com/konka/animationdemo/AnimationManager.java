@@ -52,6 +52,8 @@ public class AnimationManager{
 
     private ImageView imageView;
 
+    private ImageView left_bg;
+
     public static String state;
 
     private CircleView[] circleView = new CircleView[4];
@@ -110,7 +112,7 @@ public class AnimationManager{
 
         state="forward";
 
-        ImageView left_bg=(ImageView)context.findViewById(R.id.left_bg);
+        //ImageView left_bg=(ImageView)context.findViewById(R.id.left_bg);
 
         leftAnimIn=ObjectAnimator.ofFloat( left_bg, "alpha", 0f, 1f);
 
@@ -390,7 +392,15 @@ public class AnimationManager{
 
         FrameLayout mainLayout = (FrameLayout) (context.findViewById(R.id.mainlayout));
 
-        Drawable ball_circle = context.getResources().getDrawable( R.drawable.ball_circle, null);
+        left_bg = new ImageView(context);
+
+        left_bg.setLayoutParams(layoutParams);
+
+        left_bg.setImageResource(R.drawable.left_bg);
+
+        left_bg.setAlpha(0f);
+
+        mainLayout.addView(left_bg);
 
         for( int i = 3; i >= 0; i--) {
 
@@ -407,7 +417,7 @@ public class AnimationManager{
 
         imageView.setLayoutParams(layoutParams);
 
-        imageView.setImageDrawable(ball_circle);
+        imageView.setImageResource(R.drawable.ball_circle);
 
         imageView.setX( (float) (animationX - radius * Math.sin(endRidians[0])) - imageWidth / 2);
 
