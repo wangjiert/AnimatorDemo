@@ -6,14 +6,19 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Matrix;
 import android.graphics.drawable.Drawable;
+import android.media.MediaPlayer;
+import android.media.session.MediaController;
+import android.net.Uri;
 import android.os.Handler;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.VideoView;
 
 /**
  * Created by wangjie on 16-8-17.
@@ -27,7 +32,7 @@ public class AnimationManager{
     private int animationY = 315;                           //旋转点的Y坐标
     private int radius = 518;                               //动画半径
     private int imageWidth = 180;                           //圆环图片的宽度
-    private int leftBgDuration = 1000;                      //左边图片显示的动画时间
+    private int leftBgDuration = 500;                      //左边图片显示的动画时间
     private int circleAlphaDuration = 100;                   //圆环透明动画持续时间
     private int circleScaleDuration = 200;                  //圆环放大持续时间
     private int highLightStartInterval = 300;               //高亮动画开始的延迟时间
@@ -41,7 +46,9 @@ public class AnimationManager{
     private int toEnd = 0;
     private int forward = 1;
     private int drawableIndex = 1;
-    private int[] drawableIds = { R.drawable.ball_4k, R.drawable.ball_mulitscreen, R.drawable.ball_miracast, R.drawable.ball_cpu}; //图片的id
+    private int[] drawableIds = { R.drawable.ball_4k, R.drawable.ball_mulitscreen, R.drawable.ball_miracast, R.drawable.ball_cpu,
+            R.drawable.ball_capture,R.drawable.ball_homeshare,R.drawable.ball_nullmouse,
+            R.drawable.ball_shop,R.drawable.ball_sss,R.drawable.ball_updateonline}; //图片的id
 
     private float circleScale = 1.05f; //圆环放大倍数
 
@@ -75,6 +82,8 @@ public class AnimationManager{
     private ValueAnimator scaleAnim;
 
     private ValueAnimator valueAnimator;
+
+    VideoView videoView;
 
     private AnimatorSet alphaScaleSet = new AnimatorSet();
 
@@ -430,6 +439,33 @@ public class AnimationManager{
         imageView.setAlpha(0f);
 
         mainLayout.addView(imageView);
+
+        videoView = new VideoView(context);
+
+        videoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+
+                videoView.start();
+
+            }
+
+        });
+
+        videoView.setVideoURI(Uri.parse("android.resource://" + context.getPackageName() + "/" + R.raw.movie1));
+
+        videoView.setLayoutParams(new FrameLayout.LayoutParams( 200, 200));
+
+        videoView.setX(50);
+
+        videoView.setY(100);
+
+        videoView.start();
+
+        videoView.requestFocus();
+
+        mainLayout.addView(videoView);
 
     }
 

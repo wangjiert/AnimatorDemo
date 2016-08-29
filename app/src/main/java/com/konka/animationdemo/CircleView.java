@@ -18,22 +18,22 @@ public class CircleView extends View {
     private int width;
     private int height;
     private int degree=0;
-    private int startColor = 0x00EEEEEE;                  //渐变色的起始颜色
-    private int endColor = 0xAAEEEEEE;                    //渐变色的终止颜色
-    private int circleSpaceWidth = 30;                    //圆球的透明部分宽度
-    private int circleEdgeWidth = 2;                      //圆球的边缘宽度
+    private final static int startColor = 0x00EEEEEE;                  //渐变色的起始颜色
+    private final static int endColor = 0xAAEEEEEE;                    //渐变色的终止颜色
+    private final static int circleSpaceWidth = 38;                    //圆球的透明部分宽度
+    private final static int circleEdgeWidth = 3;                      //圆球的边缘宽度
 
     private float distance ;
     private float radius;
-    private float sqrt2 = 1.414213562f;
+    private final static float sqrt2 = 1.414213562f;
 
-    private double forwardAcceleratedRatio = 0.001;     //圆球开始向上旋转的加速度
-    private double bounceAcceleratedRatio = 0.002;      //圆球反弹时旋转加速度
-    private double backwardAcceleratedRatio = 0.002;    //圆球向下时旋转加速度
-    private double startSpeed = 0.015;                  //圆球开始旋转的速度
-    private double bounceSpeed = 0.04;                  //圆球碰撞之后的起始速度
-    private double returnSpeed = 0.0225;                //圆球反向旋转的起始速度
-    private double startRadian = 0.0;                   //圆球开始旋转的夹角
+    private final static double forwardAcceleratedRatio = 0.001;     //圆球开始向上旋转的加速度
+    private final static double bounceAcceleratedRatio = 0.002;      //圆球反弹时旋转加速度
+    private final static double backwardAcceleratedRatio = 0.002;    //圆球向下时旋转加速度
+    private final static double startSpeed = 0.015;                  //圆球开始旋转的速度
+    private final static double bounceSpeed = 0.04;                  //圆球碰撞之后的起始速度
+    private final static double returnSpeed = 0.0225;                //圆球反向旋转的起始速度
+    private final static double startRadian = 0.0;                   //圆球开始旋转的夹角
     private double acceleratedValue = 0;
     private double currentRadian = startRadian;
     private double endRadian;
